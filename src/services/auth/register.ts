@@ -4,7 +4,7 @@
 import { AuthResponse } from "@src/interfaces/auth/AuthResponse";
 import { RegisterRequest } from "@src/interfaces/auth/RegisterRequest";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8081";
 
 export const register = async (credentials: RegisterRequest) => {
   const response = await fetch(`${API_URL}/api/auth/register`, {
