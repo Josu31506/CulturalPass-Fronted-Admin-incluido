@@ -10,7 +10,11 @@
   },
   "dependencies": {
     "@mercadopago/sdk-react": "^1.0.6",
+    "@yudiel/react-qr-scanner": "^2.4.1",
+    "@zxing/browser": "^0.1.5",
+    "@zxing/library": "^0.21.3",
     "framer-motion": "^12.23.24",
+    "jsqr": "^1.4.0",
     "jwt-decode": "^4.0.0",
     "next": "^16.0.1",
     "next-auth": "^4.24.13",
