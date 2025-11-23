@@ -18,7 +18,10 @@ export const getFarthest = async (): Promise<EventResponse> => {
 export const getNearestConcert = async (): Promise<EventResponse[]> => {
     const res = await fetch(`${API_URL}/filtered?currentPage=0&pageSize=4&type=CONCIERTO&sortByDate=nearest`);
     if (!res.ok) {
-        throw new Error("Error fetching nearest concert");
+        console.error(`Error fetching nearest concert: ${res.status} ${res.statusText}`);
+        const text = await res.text();
+        console.error("Response body:", text);
+        throw new Error(`Error fetching nearest concert: ${res.status}`);
     }
     const data: PaginatedResponse<EventResponse> = await res.json();
     return data.content;
@@ -28,7 +31,10 @@ export const getNearestConcert = async (): Promise<EventResponse[]> => {
 export const getNearestConference = async (): Promise<EventResponse[]> => {
     const res = await fetch(`${API_URL}/filtered?currentPage=0&pageSize=4&type=CONFERENCIA&sortByDate=nearest`);
     if (!res.ok) {
-        throw new Error("Error fetching nearest conferences");
+        console.error(`Error fetching nearest conferences: ${res.status} ${res.statusText}`);
+        const text = await res.text();
+        console.error("Response body:", text);
+        throw new Error(`Error fetching nearest conferences: ${res.status}`);
     }
     const data: PaginatedResponse<EventResponse> = await res.json();
     return data.content;
