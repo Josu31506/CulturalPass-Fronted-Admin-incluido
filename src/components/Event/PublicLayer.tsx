@@ -6,8 +6,20 @@ import { getNearestConcert, getNearestConference } from '@src/services/event/fil
 export const PublicLayer = async () => {
     //aqui irian los datos fetcheados, pero por implementación se harán con datos estáticos
 
-    const concertNearest = await getNearestConcert();
-    const conferenceNearest = await getNearestConference();
+    let concertNearest: EventResponse[] = [];
+    let conferenceNearest: EventResponse[] = [];
+
+    try {
+        concertNearest = await getNearestConcert();
+    } catch (error) {
+        console.error("Failed to load nearest concerts", error);
+    }
+
+    try {
+        conferenceNearest = await getNearestConference();
+    } catch (error) {
+        console.error("Failed to load nearest conferences", error);
+    }
 
     return (
         <div className='w-full max-w-7xl mx-auto pt-10'>
@@ -22,7 +34,7 @@ export const PublicLayer = async () => {
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 overflow-x-auto mx-auto my-6 pb-4  px-6'>
                 {
                     concertNearest.map((event) => (
-                        <EventCard key={event.id} data={event  as EventResponse} />
+                        <EventCard key={event.id} data={event as EventResponse} />
                     ))
                 }
             </div>
@@ -32,7 +44,7 @@ export const PublicLayer = async () => {
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 overflow-x-auto mx-auto my-6 pb-4  px-6'>
                 {
                     conferenceNearest.map((event) => (
-                        <EventCard key={event.id} data={event  as EventResponse} />
+                        <EventCard key={event.id} data={event as EventResponse} />
                     ))
                 }
             </div>
