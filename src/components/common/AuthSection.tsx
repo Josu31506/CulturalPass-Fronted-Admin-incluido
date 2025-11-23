@@ -1,3 +1,4 @@
+// src/components/AuthSection.tsx
 "use client";
 
 import { useSession, signOut } from "next-auth/react";
@@ -18,15 +19,11 @@ export const AuthSection = () => {
 
     return (
       <div className="flex items-center gap-3">
+        {/* Controles solo para ADMIN */}
         {role === "ADMIN" && (
           <div className="flex items-center gap-2">
-            <Link
-              href="/dashboard"
-              className="min-w-fit mx-1 px-3 py-2 rounded-3xl border-2 border-background-secondary text-background-secondary hover:bg-background-secondary hover:text-white text-sm"
-              aria-label="Ir al panel de administración"
-            >
-              Panel
-            </Link>
+
+
             <Link
               href="/dashboard/statistics"
               className="min-w-fit mx-1 px-3 py-2 rounded-3xl border-2 border-background-secondary text-background-secondary hover:bg-background-secondary hover:text-white text-sm"
@@ -34,6 +31,7 @@ export const AuthSection = () => {
             >
               Estadísticas
             </Link>
+
             <Link
               href="/dashboard/events"
               className="min-w-fit mx-1 px-3 py-2 rounded-3xl border-2 border-background-secondary text-background-secondary hover:bg-background-secondary hover:text-white text-sm"
@@ -42,7 +40,7 @@ export const AuthSection = () => {
               Eventos
             </Link>
 
-            {/* Crear evento -> formulario */}
+            {/* Nuevo: Crear evento (formulario) */}
             <Link
               href="/dashboard/events/create"
               className="min-w-fit mx-1 px-3 py-2 rounded-3xl bg-background-little-1 text-white text-sm"
@@ -50,11 +48,24 @@ export const AuthSection = () => {
             >
               Crear evento
             </Link>
+
+            {/* Nuevo: Validador de QR */}
+            <Link
+              href="/dashboard/tokens/scan"
+              className="min-w-fit mx-1 px-3 py-2 rounded-3xl border-2 border-background-secondary text-background-secondary hover:bg-background-secondary hover:text-white text-sm"
+              aria-label="Validar QR"
+            >
+              Validar QR
+            </Link>
           </div>
         )}
 
+        {/* Avatar + Perfil */}
         <div className="flex items-center rounded-3xl bg-background px-3 py-2 gap-3">
-          <div className="bg-background-little-1 rounded-full h-9 w-9 flex items-center justify-center text-white font-bold text-sm" aria-hidden>
+          <div
+            className="bg-background-little-1 rounded-full h-9 w-9 flex items-center justify-center text-white font-bold text-sm"
+            aria-hidden
+          >
             {firstLetter}
           </div>
           <Link href="/profile" className="flex flex-col truncate" aria-label="Ir a mi perfil">
@@ -65,6 +76,7 @@ export const AuthSection = () => {
           </Link>
         </div>
 
+        {/* Logout */}
         <button
           onClick={() => signOut({ callbackUrl: "/" })}
           className="min-w-fit mx-1 px-3 py-2 bg-transparent text-background-secondary rounded-3xl border-background-secondary border-2 transition-colors cursor-pointer hover:bg-background-secondary hover:text-white text-sm"
@@ -75,6 +87,7 @@ export const AuthSection = () => {
     );
   }
 
+  // Usuario NO autenticado
   const qs = searchParams?.toString?.() ?? "";
   const currentPathWithQuery = `${pathname}${qs ? `?${qs}` : ""}`;
   const callbackParam =
@@ -83,12 +96,18 @@ export const AuthSection = () => {
   return (
     <div className="flex items-center gap-2 text-background-secondary">
       <div className="p-1 text-sm">
-        <Link href={`/auth/login${callbackParam}`} className="block px-3 py-1 rounded-md hover:bg-bg-alternative">
+        <Link
+          href={`/auth/login${callbackParam}`}
+          className="block px-3 py-1 rounded-md hover:bg-bg-alternative"
+        >
           Iniciar sesión
         </Link>
       </div>
       <div className="p-1">
-        <Link href="/auth/register" className="block px-3 py-1 rounded-md border border-background-secondary hover:bg-white/10">
+        <Link
+          href="/auth/register"
+          className="block px-3 py-1 rounded-md border border-background-secondary hover:bg-white/10"
+        >
           Crear cuenta
         </Link>
       </div>
