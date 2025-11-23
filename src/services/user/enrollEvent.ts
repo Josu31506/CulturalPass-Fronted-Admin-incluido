@@ -1,9 +1,9 @@
 "use server";
 
 import { getTokenServerAction } from "@src/utils/jwt";
+import loaderEnv from "@src/utils/loaderEnv";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
-
+const API_URL = loaderEnv("BACKEND_URL");
 
 export const enrollEvent = async (eventId: string): Promise<void> => {
     const token = await getTokenServerAction();
