@@ -1,7 +1,7 @@
 // src/services/admin/events.ts
 import loaderEnv from "@src/utils/loaderEnv";
 
-const BASE = loaderEnv("BACKEND_URL"); // p.ej. http://localhost:8080
+const BASE = loaderEnv("BACKEND_URL"); // p.ej. http://localhost:8081
 
 async function safeText(res: Response) {
   try { return await res.text(); } catch { return ""; }
