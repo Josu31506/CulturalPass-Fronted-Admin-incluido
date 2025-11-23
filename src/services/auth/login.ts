@@ -3,7 +3,7 @@
 import { AuthResponse } from "@src/interfaces/auth/AuthResponse";
 import { LoginRequest } from "@src/interfaces/auth/LoginRequest";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8081";
 
 export const login = async (credentials: LoginRequest) => {
   const response = await fetch(`${API_URL}/api/auth/login`, {
