@@ -3,28 +3,34 @@ import { PaymentMethod, CreditCardInfo, YapeInfo } from "@src/interfaces/payment
 import { UseFormRegister } from "react-hook-form";
 import { usePathname } from "next/navigation";
 import { enrollEvent } from "@src/services/user/enrollEvent";
+import { payForEvent } from "@src/services/payment/mockPayment";
+import { useState } from "react";
 
 export default function DataInputs({ selectedMethod, nextPage, prevPage, creditCardRegister, yapeRegister }: { selectedMethod: PaymentMethod; nextPage: () => void; prevPage: () => void; creditCardRegister: UseFormRegister<CreditCardInfo>; yapeRegister: UseFormRegister<YapeInfo>; }) {
 
-    //get if from the url
     const pathname = usePathname();
     const idEvent = pathname.split("/")[2];
+    const [isProcessing, setIsProcessing] = useState(false);
 
     const handleNextPage = async () => {
-        // Here you can handle the form submission logic based on the selected payment method
-        //mocked for now
-        if (selectedMethod === "credit_card") {
-            //const data = creditCardGetValues();
-            // Send data to your API
-        } else if (selectedMethod === "yape") {
-            //const data = yapeGetValues();
-            // Send data to your API
+        setIsProcessing(true);
+        try {
+            // 1. Process Payment (Mock)
+            // For now, we use a dummy user ID since we are in the client and might not have the ID handy without session
+            // In a real app, you'd get this from the session or context
+            await payForEvent(idEvent, "current-user-id");
+
+            // 2. Enroll in Event
+            await enrollEvent(idEvent);
+
+            alert("¡Pago e inscripción exitosos!");
+            nextPage();
+        } catch (error) {
+            console.error(error);
+            alert("Hubo un error al procesar el pago o la inscripción. Por favor intenta nuevamente.");
+        } finally {
+            setIsProcessing(false);
         }
-
-        await enrollEvent(idEvent);
-        
-        nextPage();
-
     }
 
     return (
@@ -64,8 +70,10 @@ export default function DataInputs({ selectedMethod, nextPage, prevPage, creditC
                 </div>
             )}
             <div className="flex flex-row w-10/12 mx-auto justify-between">
-                <button onClick={prevPage} className="border-background border cursor-pointer py-3 px-6 rounded-2xl  font-bold text-white bg-background-secondary/80 hover:bg-background-secondary/70 transition-all duration-100">Back</button>
-                <button onClick={handleNextPage} className="border-background border cursor-pointer py-3 px-6 rounded-2xl  font-bold text-white bg-background-secondary/80 hover:bg-background-secondary/70 transition-all duration-100">Next</button>
+                <button onClick={prevPage} disabled={isProcessing} className="border-background border cursor-pointer py-3 px-6 rounded-2xl  font-bold text-white bg-background-secondary/80 hover:bg-background-secondary/70 transition-all duration-100 disabled:opacity-50 disabled:cursor-not-allowed">Back</button>
+                <button onClick={handleNextPage} disabled={isProcessing} className="border-background border cursor-pointer py-3 px-6 rounded-2xl  font-bold text-white bg-background-secondary/80 hover:bg-background-secondary/70 transition-all duration-100 disabled:opacity-50 disabled:cursor-not-allowed">
+                    {isProcessing ? "Procesando..." : "Pagar e Inscribirse"}
+                </button>
             </div>
         </div>
     );
