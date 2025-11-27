@@ -1,22 +1,11 @@
 "use client";
 
-import { useState } from "react";
+
 import { EventRegistrationTokenResponse } from "@src/interfaces/event/EventRegistrationTokenResponse";
 import { QrFromText } from "@src/components/common/QRGenerator";
 
 export default function InscriptionInfo({ info }: { info: EventRegistrationTokenResponse }) {
-    const [copied, setCopied] = useState(false);
 
-    const handleCopy = async () => {
-        try {
-            await navigator.clipboard.writeText(info.token);
-            setCopied(true);
-            setTimeout(() => setCopied(false), 2000);
-        } catch (e) {
-            // no-op: si falla, no rompemos la UI
-            console.error("No se pudo copiar el token:", e);
-        }
-    };
 
     return (
         <section className="w-full max-w-5xl mx-auto p-6 rounded-xl shadow-md bg-bg-alternative text-foreground">
@@ -30,15 +19,7 @@ export default function InscriptionInfo({ info }: { info: EventRegistrationToken
                     <div className="p-4 bg-bg-alternative rounded-lg">
                         <QrFromText text={info.token} size={256} />
                     </div>
-                    <div className="mt-4 w-full text-center">
-                        <button
-                            onClick={handleCopy}
-                            className="inline-flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium"
-                            style={{ backgroundColor: "var(--color-background-little-2)", color: "var(--color-foreground)" }}
-                        >
-                            {copied ? "Copiado" : "Copiar token"}
-                        </button>
-                    </div>
+
                 </div>
 
                 <div className="md:col-span-2 bg-white/80 p-4 rounded-lg">
