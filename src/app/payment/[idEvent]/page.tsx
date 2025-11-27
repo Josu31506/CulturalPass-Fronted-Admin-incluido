@@ -15,7 +15,7 @@ export default async function EventIndividualPaymentPage({ params }: { params: P
                     </aside>
 
                     <main className="w-full md:w-2/3 overflow-hidden">
-                        <PaymentSlidesOrq />
+                        <PaymentSlidesOrq idEvent={idEvent} />
                     </main>
                 </div>
             </div>
