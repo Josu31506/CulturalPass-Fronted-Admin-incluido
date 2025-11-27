@@ -129,7 +129,11 @@ export default function ScanTokensPage() {
           : "Error desconocido del lector";
 
     // Ignorar AbortError (interrupción de play() al desmontar/pausar)
-    if (name === "AbortError" || msg.includes("interrupted")) return;
+    if (
+      name === "AbortError" ||
+      msg.toLowerCase().includes("interrupted") ||
+      msg.toLowerCase().includes("media was removed")
+    ) return;
 
     setErrors((prev) =>
       (prev.length > 10 ? prev.slice(-10) : prev).concat(`${name || "Error"}: ${msg}`)
