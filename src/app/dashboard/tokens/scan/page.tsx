@@ -132,7 +132,8 @@ export default function ScanTokensPage() {
     if (
       name === "AbortError" ||
       msg.toLowerCase().includes("interrupted") ||
-      msg.toLowerCase().includes("media was removed")
+      msg.toLowerCase().includes("media was removed") ||
+      msg.toLowerCase().includes("play()")
     ) return;
 
     setErrors((prev) =>
