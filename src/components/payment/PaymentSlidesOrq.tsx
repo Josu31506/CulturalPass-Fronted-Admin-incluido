@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import { useForm } from "react-hook-form";
 
 
-export default function PaymentSlidesOrq() {
+export default function PaymentSlidesOrq({ idEvent }: { idEvent: string }) {
     const [currentSlide, setCurrentSlide] = useState(0);
     const {
         register: creditCardRegister,
@@ -29,7 +29,7 @@ export default function PaymentSlidesOrq() {
     const slides = [
         <PaymentSelection payment_method={paymentMethod} setPaymentMethod={setPaymentMethod} nextPage={nextSlide} key={0} />,
         <DataInputs selectedMethod={paymentMethod} nextPage={nextSlide} prevPage={prevSlide} creditCardRegister={creditCardRegister} yapeRegister={yapeRegister} key={1} />,
-        <FinalResult key={2} />
+        <FinalResult key={2} idEvent={idEvent} />
     ];
     return (
         <div className="w-full overflow-hidden">
