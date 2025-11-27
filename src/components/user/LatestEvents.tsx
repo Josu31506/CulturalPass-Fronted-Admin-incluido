@@ -3,6 +3,8 @@ import { getLatestEvents } from "@src/services/user/getLatestEvents";
 import { TypeMiniCard, TimeLeftCounterNoSSR, TimeToCloseEventNoSSR } from '@src/components/common/Cards';
 import { RightArrowIcon } from "@src/components/lib/icons";
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@src/app/api/auth/[...nextauth]/route";
 
 
 const MiniItem = ({ event }: { event: EventResponse }) => {
@@ -38,7 +40,22 @@ const MiniItem = ({ event }: { event: EventResponse }) => {
 }
 
 export default async function LatestEvents() {
-    const events = await getLatestEvents();
+    const session = await getServerSession(authOptions);
+    const role = (session as any)?.user?.role;
+
+    let events: EventResponse[] = [];
+
+    // Si es admin, no intentamos fetchear eventos de usuario
+    if (role === 'ADMIN') {
+        events = [];
+    } else {
+        try {
+            events = await getLatestEvents();
+        } catch (error) {
+            console.error("Failed to load latest events:", error);
+            // Fallback: events remains []
+        }
+    }
     return (
         <div className="w-full max-w-xl mx-auto p-4 sm:p-6 bg-background-tertiary shadow-md rounded-2xl">
 
