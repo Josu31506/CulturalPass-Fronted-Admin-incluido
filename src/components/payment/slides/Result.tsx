@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-export default function FinalResult() {
+export default function FinalResult({ idEvent }: { idEvent: string }) {
     return (
         <div className="w-full flex items-center justify-center py-8">
             <div className="max-w-md w-full bg-white/90 rounded-2xl shadow-md p-8 text-center">
@@ -17,8 +17,11 @@ export default function FinalResult() {
                     Te has registrado oficialmente para el evento. ¡Nos vemos allí!
                 </p>
 
-                <div className="flex gap-3 justify-center">
-                    <Link href="/" className="inline-flex items-center px-5 py-2 border border-background rounded-md text-gray-700 hover:bg-background-secondary/80 hover:text-white transition-all ">
+                <div className="flex gap-3 justify-center flex-col sm:flex-row">
+                    <Link href={`/myevents/${idEvent}`} className="inline-flex items-center justify-center px-5 py-2 bg-background-secondary text-white rounded-md hover:bg-background-secondary/90 transition-all">
+                        Ver mi entrada
+                    </Link>
+                    <Link href="/" className="inline-flex items-center justify-center px-5 py-2 border border-background rounded-md text-gray-700 hover:bg-background-secondary/80 hover:text-white transition-all ">
                         Volver al inicio
                     </Link>
                 </div>
