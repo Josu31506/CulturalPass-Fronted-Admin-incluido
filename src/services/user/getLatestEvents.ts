@@ -16,9 +16,14 @@ export const getLatestEvents = async () => {
         cache: "no-store",
     });
     if (!response.ok) {
-        const data = await response.json();
-        console.error("Error fetching latest events:", data);
-        throw new Error("Error fetching latest events");
+        let errorBody;
+        try {
+            errorBody = await response.json();
+        } catch {
+            errorBody = await response.text();
+        }
+        console.error(`Error fetching latest events: ${response.status} ${response.statusText}`, errorBody);
+        throw new Error(`Error fetching latest events: ${response.status}`);
     }
     const data = await response.json();
     console.log("Latest events data:", data);
